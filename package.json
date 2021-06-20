@@ -1,0 +1,24 @@
+{
+  "name": "to-do-application",
+  "version": "1.0.0",
+  "description": "Simple To Do Application",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "to-do",
+    "to-do list",
+    "to-do app",
+    "to do"
+  ],
+  "author": "Juan Paolo A. Mariano",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "mongoose": "^5.12.14",
+    "nodemon": "^2.0.7"
+  }
+}
