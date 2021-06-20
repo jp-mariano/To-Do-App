@@ -30,8 +30,8 @@ api.use(express.json());
 api.use(express.urlencoded({ extended: true }));
 
 // Route
-// const userRoutes = require('');
-// api.use('', userRoutes);
+const userRoutes = require('./routes/user');
+api.use('/api/users', userRoutes);
 
 // Listening Port
 api.listen(process.env.PORT, () => {
