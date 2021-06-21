@@ -37,4 +37,15 @@ router.post('/log-in', async (req, res) => {
 	}
 });
 
+// Add a to do
+router.post('/add-to-do', async (req, res) => {
+	try {
+		const userId = auth.decode(req.headers.authorization).id;
+		res.send(await UserController.addToDo(req.body, userId));
+		
+	} catch (err) {
+		console.error(err);
+	}
+});
+
 module.exports = router;

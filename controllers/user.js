@@ -9,6 +9,8 @@ const auth = require('../auth');
 // bcryptjs
 const bcryptjs = require('bcryptjs');
 
+// CONTROLLERS
+
 // To check if user's email is already in the DB
 module.exports.emailExists = async (body) => {
 	try {
@@ -62,6 +64,25 @@ module.exports.logIn = async (body) => {
 		} else {
 			return { error: 'incorrect-password' }; // Return this if passwords doesn't match
 		}
+		
+	} catch (err) {
+		console.error(err);
+	}
+};
+
+// Add a to do
+module.exports.addToDo = async (body, userId) => {
+	try {
+		const user = await User.findById(userId);
+		
+		user.toDo.push({
+			name: body.name,
+			description: body.description,
+			toDoDate: body.toDoDate,
+		});
+		
+		await user.save(); // When this fails, it goes to catch
+		return true // If success, return true
 		
 	} catch (err) {
 		console.error(err);
