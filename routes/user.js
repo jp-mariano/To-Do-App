@@ -28,4 +28,13 @@ router.post('/register', async (req, res) => {
 	}
 });
 
+// To log in via email
+router.post('/log-in', async (req, res) => {
+	try {
+		res.send(await UserController.logIn(req.body));
+	} catch (err) {
+		console.error(err);
+	}
+});
+
 module.exports = router;
