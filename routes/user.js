@@ -59,4 +59,22 @@ router.post('/add-to-do', async (req, res) => {
 	}
 });
 
+// Edit user's details (givenName & familyName)
+
+
+// Edit a to do
+
+
+// Delete a to do
+router.delete('/delete-to-do/:toDoId', async (req, res) => {
+	try {
+		const userId = auth.decode(req.headers.authorization).id;
+		const toDoId = req.params.toDoId;
+		res.send(await UserController.deleteToDo(userId, toDoId));
+		
+	} catch (err) {
+		console.error(err);
+	}
+});
+
 module.exports = router;

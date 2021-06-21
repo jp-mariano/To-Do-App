@@ -100,3 +100,25 @@ module.exports.addToDo = async (body, userId) => {
 		console.error(err);
 	}
 };
+
+// Edit user's details (givenName & familyName)
+
+
+// Edit a to do
+
+
+// Delete a to do
+module.exports.deleteToDo = async (userId, toDoId) => {
+	try {
+		const toBeDeleted = {
+			$pull: {
+				toDo: { _id: toDoId }
+			}
+		}
+		const user = await User.findByIdAndUpdate(userId, toBeDeleted);
+		return true; // If success, return true
+		
+	} catch (err) {
+		console.error(err);
+	}
+};
