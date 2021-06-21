@@ -70,6 +70,18 @@ module.exports.logIn = async (body) => {
 	}
 };
 
+// Get user's details
+module.exports.getDetails = async (userId) => {
+	try {
+		const user = await User.findById(userId);
+		user.password = undefined; // To leave out the password
+		return user;
+		
+	} catch (err) {
+		console.error(err);
+	}
+};
+
 // Add a to do
 module.exports.addToDo = async (body, userId) => {
 	try {

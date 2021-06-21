@@ -37,6 +37,17 @@ router.post('/log-in', async (req, res) => {
 	}
 });
 
+// Get user's details
+router.get('/details', async (req, res) => {
+	try {
+		const userId = auth.decode(req.headers.authorization).id;
+		res.send(await UserController.getDetails(userId));
+		
+	} catch (err) {
+		console.error(err);
+	}
+});
+
 // Add a to do
 router.post('/add-to-do', async (req, res) => {
 	try {
