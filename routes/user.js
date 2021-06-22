@@ -141,7 +141,16 @@ router.put('/edit/to-do-date/:toDoId', async (req, res) => {
 });
 
 // Edit a to do's status
-
+router.put('/edit/to-do-status/:toDoId', async (req, res) => {
+	try {
+		const userId = auth.decode(req.headers.authorization).id;
+		const toDoId = req.params.toDoId;
+		res.send(await UserController.editToDoStatus(req.body, userId, toDoId));
+		
+	} catch (err) {
+		console.error(err);
+	}
+});
 
 // Delete a to do
 router.delete('/delete-to-do/:toDoId', async (req, res) => {

@@ -224,7 +224,23 @@ module.exports.editToDoDate = async (body, userId, toDoId) => {
 };
 
 // Edit a to do's status
-
+module.exports.editToDoStatus = async (body, userId, toDoId) => {
+	try {
+		const update = {
+			$set: { 'toDo.$[elem].status': body.status }
+		};
+		
+		const filter = {
+			arrayFilters: [ { 'elem._id': toDoId } ]
+		};
+		
+		await User.findByIdAndUpdate(userId, update, filter);
+		return true; // If success, return true
+		
+	} catch (err) {
+		console.error(err);
+	}
+};
 
 // Delete a to do
 module.exports.deleteToDo = async (userId, toDoId) => {
