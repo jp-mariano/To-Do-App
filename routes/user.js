@@ -60,7 +60,15 @@ router.post('/add-to-do', async (req, res) => {
 });
 
 // Edit user's details (givenName & familyName)
-
+router.put('/edit/names', async (req, res) => {
+	try {
+		const userId = auth.decode(req.headers.authorization).id;
+		res.send(await UserController.editNames(req.body, userId));
+		
+	} catch (err) {
+		console.error(err);
+	}
+});
 
 // Edit a to do
 

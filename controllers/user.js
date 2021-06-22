@@ -102,7 +102,20 @@ module.exports.addToDo = async (body, userId) => {
 };
 
 // Edit user's details (givenName & familyName)
-
+module.exports.editNames = async (body, userId) => {
+	try {
+		const updates = {
+			givenName: body.givenName,
+			familyName: body.familyName
+		};
+		
+		const user = await User.findByIdAndUpdate(userId, updates);
+		return true; // If success, return true
+		
+	} catch (err) {
+		console.error(err);
+	}
+};
 
 // Edit a to do
 
