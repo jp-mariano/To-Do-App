@@ -143,7 +143,32 @@ module.exports.editFamName = async (body, userId) => {
 	}
 };
 
-// Edit a to do
+// Edit a to do's name, description, and toDoDate
+module.exports.editToDo = async (body, toDoId) => {
+	try {
+		const updates = {
+			$set: {
+				'toDo.$.name': body.name,
+				'toDo.$.description': body.description,
+				'toDo.$.toDoDate': body.toDoDate
+			}
+		};
+		
+		await User.updateOne({ 'toDo._id': toDoId }, updates);
+		return true;
+		
+	} catch (err) {
+		console.error(err);
+	}
+};
+
+// Edit a to do's description
+
+
+// Edit a to do's toDoDate
+
+
+// Edit a to do's status
 
 
 // Delete a to do

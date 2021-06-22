@@ -92,7 +92,27 @@ router.put('/edit/fam-name', async (req, res) => {
 	}
 });
 
-// Edit a to do
+// Edit a to do's name, description, and toDoDate
+router.put('/edit/to-do/:toDoId', async (req, res) => {
+	try {
+		const toDoId = req.params.toDoId;
+		res.send(await UserController.editToDo(req.body, toDoId));
+		
+	} catch (err) {
+		console.error(err);
+	}
+});
+
+// Edit a to do's name
+
+
+// Edit a to do's description
+
+
+// Edit a to do's toDoDate
+
+
+// Edit a to do's status
 
 
 // Delete a to do
