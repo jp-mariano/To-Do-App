@@ -101,7 +101,7 @@ module.exports.addToDo = async (body, userId) => {
 	}
 };
 
-// Edit user's details (givenName & familyName)
+// Edit user's names (givenName & familyName)
 module.exports.editNames = async (body, userId) => {
 	try {
 		const updates = {
@@ -110,6 +110,32 @@ module.exports.editNames = async (body, userId) => {
 		};
 		
 		const user = await User.findByIdAndUpdate(userId, updates);
+		return true; // If success, return true
+		
+	} catch (err) {
+		console.error(err);
+	}
+};
+
+// Edit user's givenName
+module.exports.editGivenName = async (body, userId) => {
+	try {
+		const update = { givenName: body.givenName };
+		
+		const user = await User.findByIdAndUpdate(userId, update);
+		return true; // If success, return true
+		
+	} catch (err) {
+		console.error(err);
+	}
+};
+
+// Edit user's familyName
+module.exports.editFamName = async (body, userId) => {
+	try {
+		const update = { familyName: body.familyName };
+		
+		const user = await User.findByIdAndUpdate(userId, update);
 		return true; // If success, return true
 		
 	} catch (err) {

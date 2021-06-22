@@ -59,11 +59,33 @@ router.post('/add-to-do', async (req, res) => {
 	}
 });
 
-// Edit user's details (givenName & familyName)
+// Edit user's names (givenName & familyName)
 router.put('/edit/names', async (req, res) => {
 	try {
 		const userId = auth.decode(req.headers.authorization).id;
 		res.send(await UserController.editNames(req.body, userId));
+		
+	} catch (err) {
+		console.error(err);
+	}
+});
+
+// Edit user's givenName
+router.put('/edit/given-name', async (req, res) => {
+	try {
+		const userId = auth.decode(req.headers.authorization).id;
+		res.send(await UserController.editGivenName(req.body, userId));
+		
+	} catch (err) {
+		console.error(err);
+	}
+});
+
+// Edit user's familyName
+router.put('/edit/fam-name', async (req, res) => {
+	try {
+		const userId = auth.decode(req.headers.authorization).id;
+		res.send(await UserController.editFamName(req.body, userId));
 		
 	} catch (err) {
 		console.error(err);
