@@ -144,17 +144,21 @@ module.exports.editFamName = async (body, userId) => {
 };
 
 // Edit a to do's name, description, and toDoDate
-module.exports.editToDo = async (body, toDoId) => {
+module.exports.editToDo = async (body, userId, toDoId) => {
 	try {
 		const updates = {
 			$set: {
-				'toDo.$.name': body.name,
-				'toDo.$.description': body.description,
-				'toDo.$.toDoDate': body.toDoDate
+				'toDo.$[elem].name': body.name,
+				'toDo.$[elem].description': body.description,
+				'toDo.$[elem].toDoDate': body.toDoDate
 			}
 		};
 		
-		await User.updateOne({ 'toDo._id': toDoId }, updates);
+		const filter = {
+			arrayFilters: [ { 'elem._id': toDoId } ]
+		};
+		
+		await User.findByIdAndUpdate(userId, updates, filter);
 		return true;
 		
 	} catch (err) {

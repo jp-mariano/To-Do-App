@@ -95,8 +95,9 @@ router.put('/edit/fam-name', async (req, res) => {
 // Edit a to do's name, description, and toDoDate
 router.put('/edit/to-do/:toDoId', async (req, res) => {
 	try {
+		const userId = auth.decode(req.headers.authorization).id;
 		const toDoId = req.params.toDoId;
-		res.send(await UserController.editToDo(req.body, toDoId));
+		res.send(await UserController.editToDo(req.body, userId, toDoId));
 		
 	} catch (err) {
 		console.error(err);
