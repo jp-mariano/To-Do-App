@@ -82,6 +82,48 @@ module.exports.getDetails = async (userId) => {
 	}
 };
 
+// Edit user's names (givenName & familyName)
+module.exports.editNames = async (body, userId) => {
+	try {
+		const updates = {
+			givenName: body.givenName,
+			familyName: body.familyName
+		};
+		
+		await User.findByIdAndUpdate(userId, updates);
+		return true; // If success, return true
+		
+	} catch (err) {
+		console.error(err);
+	}
+};
+
+// Edit user's givenName
+module.exports.editGivenName = async (body, userId) => {
+	try {
+		const update = { givenName: body.givenName };
+		
+		await User.findByIdAndUpdate(userId, update);
+		return true; // If success, return true
+		
+	} catch (err) {
+		console.error(err);
+	}
+};
+
+// Edit user's familyName
+module.exports.editFamName = async (body, userId) => {
+	try {
+		const update = { familyName: body.familyName };
+		
+		await User.findByIdAndUpdate(userId, update);
+		return true; // If success, return true
+		
+	} catch (err) {
+		console.error(err);
+	}
+};
+
 // Add a to do
 module.exports.addToDo = async (body, userId) => {
 	try {
@@ -95,48 +137,6 @@ module.exports.addToDo = async (body, userId) => {
 		
 		await user.save(); // When this fails, it goes to catch
 		return true // If success, return true
-		
-	} catch (err) {
-		console.error(err);
-	}
-};
-
-// Edit user's names (givenName & familyName)
-module.exports.editNames = async (body, userId) => {
-	try {
-		const updates = {
-			givenName: body.givenName,
-			familyName: body.familyName
-		};
-		
-		const user = await User.findByIdAndUpdate(userId, updates);
-		return true; // If success, return true
-		
-	} catch (err) {
-		console.error(err);
-	}
-};
-
-// Edit user's givenName
-module.exports.editGivenName = async (body, userId) => {
-	try {
-		const update = { givenName: body.givenName };
-		
-		const user = await User.findByIdAndUpdate(userId, update);
-		return true; // If success, return true
-		
-	} catch (err) {
-		console.error(err);
-	}
-};
-
-// Edit user's familyName
-module.exports.editFamName = async (body, userId) => {
-	try {
-		const update = { familyName: body.familyName };
-		
-		const user = await User.findByIdAndUpdate(userId, update);
-		return true; // If success, return true
 		
 	} catch (err) {
 		console.error(err);
@@ -159,7 +159,26 @@ module.exports.editToDo = async (body, userId, toDoId) => {
 		};
 		
 		await User.findByIdAndUpdate(userId, updates, filter);
-		return true;
+		return true; // If success, return true
+		
+	} catch (err) {
+		console.error(err);
+	}
+};
+
+// Edit a to do's name
+module.exports.editToDoName = async (body, userId, toDoId) => {
+	try {
+		const update = {
+			$set: { 'toDo.$[elem].name': body.name }
+		};
+		
+		const filter = {
+			arrayFilters: [ { 'elem._id': toDoId } ]
+		};
+		
+		await User.findByIdAndUpdate(userId, update, filter);
+		return true; // If success, return true
 		
 	} catch (err) {
 		console.error(err);
@@ -167,10 +186,42 @@ module.exports.editToDo = async (body, userId, toDoId) => {
 };
 
 // Edit a to do's description
-
+module.exports.editToDoDesc = async (body, userId, toDoId) => {
+	try {
+		const update = {
+			$set: { 'toDo.$[elem].description': body.description }
+		};
+		
+		const filter = {
+			arrayFilters: [ { 'elem._id': toDoId } ]
+		};
+		
+		await User.findByIdAndUpdate(userId, update, filter);
+		return true; // If success, return true
+		
+	} catch (err) {
+		console.error(err);
+	}
+};
 
 // Edit a to do's toDoDate
-
+module.exports.editToDoDate = async (body, userId, toDoId) => {
+	try {
+		const update = {
+			$set: { 'toDo.$[elem].toDoDate': body.toDoDate }
+		};
+		
+		const filter = {
+			arrayFilters: [ { 'elem._id': toDoId } ]
+		};
+		
+		await User.findByIdAndUpdate(userId, update, filter);
+		return true; // If success, return true
+		
+	} catch (err) {
+		console.error(err);
+	}
+};
 
 // Edit a to do's status
 
@@ -182,8 +233,9 @@ module.exports.deleteToDo = async (userId, toDoId) => {
 			$pull: {
 				toDo: { _id: toDoId }
 			}
-		}
-		const user = await User.findByIdAndUpdate(userId, toBeDeleted);
+		};
+		
+		await User.findByIdAndUpdate(userId, toBeDeleted);
 		return true; // If success, return true
 		
 	} catch (err) {

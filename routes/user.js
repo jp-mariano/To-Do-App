@@ -48,17 +48,6 @@ router.get('/details', async (req, res) => {
 	}
 });
 
-// Add a to do
-router.post('/add-to-do', async (req, res) => {
-	try {
-		const userId = auth.decode(req.headers.authorization).id;
-		res.send(await UserController.addToDo(req.body, userId));
-		
-	} catch (err) {
-		console.error(err);
-	}
-});
-
 // Edit user's names (givenName & familyName)
 router.put('/edit/names', async (req, res) => {
 	try {
@@ -92,6 +81,17 @@ router.put('/edit/fam-name', async (req, res) => {
 	}
 });
 
+// Add a to do
+router.post('/add-to-do', async (req, res) => {
+	try {
+		const userId = auth.decode(req.headers.authorization).id;
+		res.send(await UserController.addToDo(req.body, userId));
+		
+	} catch (err) {
+		console.error(err);
+	}
+});
+
 // Edit a to do's name, description, and toDoDate
 router.put('/edit/to-do/:toDoId', async (req, res) => {
 	try {
@@ -105,13 +105,40 @@ router.put('/edit/to-do/:toDoId', async (req, res) => {
 });
 
 // Edit a to do's name
-
+router.put('/edit/to-do-name/:toDoId', async (req, res) => {
+	try {
+		const userId = auth.decode(req.headers.authorization).id;
+		const toDoId = req.params.toDoId;
+		res.send(await UserController.editToDoName(req.body, userId, toDoId));
+		
+	} catch (err) {
+		console.error(err);
+	}
+});
 
 // Edit a to do's description
-
+router.put('/edit/to-do-desc/:toDoId', async (req, res) => {
+	try {
+		const userId = auth.decode(req.headers.authorization).id;
+		const toDoId = req.params.toDoId;
+		res.send(await UserController.editToDoDesc(req.body, userId, toDoId));
+		
+	} catch (err) {
+		console.error(err);
+	}
+});
 
 // Edit a to do's toDoDate
-
+router.put('/edit/to-do-date/:toDoId', async (req, res) => {
+	try {
+		const userId = auth.decode(req.headers.authorization).id;
+		const toDoId = req.params.toDoId;
+		res.send(await UserController.editToDoDate(req.body, userId, toDoId));
+		
+	} catch (err) {
+		console.error(err);
+	}
+});
 
 // Edit a to do's status
 
