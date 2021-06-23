@@ -19,7 +19,7 @@ const User = new mongoose.Schema({
 	},
 	loginType: {
 		type: String,
-		default: 'email' //Alternative value is 'google'
+		default: 'email' // Alternative value is 'google'
 	},
 	toDo: [
 		{
@@ -28,14 +28,14 @@ const User = new mongoose.Schema({
 				required: [true, 'To-do name is required.']
 			},
 			description: {
-				type: String //description is optional
+				type: String // Description is optional
 			},
 			toDoDate: {
 				type: Date
 			},
 			status: {
 				type: String,
-				default: 'pending' //Alternative value is 'done'
+				default: 'pending' // Alternative value is 'done'
 			},
 			createdOn: {
 				type: Date,

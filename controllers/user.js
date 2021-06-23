@@ -127,16 +127,18 @@ module.exports.editFamName = async (body, userId) => {
 // Add a to do
 module.exports.addToDo = async (body, userId) => {
 	try {
-		const user = await User.findById(userId);
+		const newToDo = {
+			$push: {
+				toDo: {
+					name: body.name,
+					description: body.description,
+					toDoDate: body.toDoDate
+				}
+			}
+		};
 		
-		user.toDo.push({
-			name: body.name,
-			description: body.description,
-			toDoDate: body.toDoDate,
-		});
-		
-		await user.save(); // When this fails, it goes to catch
-		return true // If success, return true
+		await User.findByIdAndUpdate(userId, newToDo);
+		return true; // If success, return true
 		
 	} catch (err) {
 		console.error(err);

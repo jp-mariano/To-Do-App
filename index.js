@@ -19,10 +19,15 @@ mongoose.connect(connectionString, {
 	useNewUrlParser: true,
 	useUnifiedTopology: true,
 	useFindAndModify: false
-});
+}).catch(err => console.error(err)); // This handles initial connection errors
 
 mongoose.connection.once('open', () => {
 	console.log('Database connection successful!');
+});
+
+// This handles errors after initial connection was established
+mongoose.connection.on('error', err => {
+	console.error(err);
 });
 
 // Middleware

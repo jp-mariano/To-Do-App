@@ -38,7 +38,7 @@ router.post('/log-in', async (req, res) => {
 });
 
 // Get user's details
-router.get('/details', async (req, res) => {
+router.get('/details', auth.verify, async (req, res) => {
 	try {
 		const userId = auth.decode(req.headers.authorization).id;
 		res.send(await UserController.getDetails(userId));
@@ -49,7 +49,7 @@ router.get('/details', async (req, res) => {
 });
 
 // Edit user's names (givenName & familyName)
-router.put('/edit/names', async (req, res) => {
+router.put('/edit/names', auth.verify, async (req, res) => {
 	try {
 		const userId = auth.decode(req.headers.authorization).id;
 		res.send(await UserController.editNames(req.body, userId));
@@ -60,7 +60,7 @@ router.put('/edit/names', async (req, res) => {
 });
 
 // Edit user's givenName
-router.put('/edit/given-name', async (req, res) => {
+router.put('/edit/given-name', auth.verify, async (req, res) => {
 	try {
 		const userId = auth.decode(req.headers.authorization).id;
 		res.send(await UserController.editGivenName(req.body, userId));
@@ -71,7 +71,7 @@ router.put('/edit/given-name', async (req, res) => {
 });
 
 // Edit user's familyName
-router.put('/edit/fam-name', async (req, res) => {
+router.put('/edit/fam-name', auth.verify, async (req, res) => {
 	try {
 		const userId = auth.decode(req.headers.authorization).id;
 		res.send(await UserController.editFamName(req.body, userId));
@@ -82,7 +82,7 @@ router.put('/edit/fam-name', async (req, res) => {
 });
 
 // Add a to do
-router.post('/add-to-do', async (req, res) => {
+router.post('/add-to-do', auth.verify, async (req, res) => {
 	try {
 		const userId = auth.decode(req.headers.authorization).id;
 		res.send(await UserController.addToDo(req.body, userId));
@@ -93,7 +93,7 @@ router.post('/add-to-do', async (req, res) => {
 });
 
 // Edit a to do's name, description, and toDoDate
-router.put('/edit/to-do/:toDoId', async (req, res) => {
+router.put('/edit/to-do/:toDoId', auth.verify, async (req, res) => {
 	try {
 		const userId = auth.decode(req.headers.authorization).id;
 		const toDoId = req.params.toDoId;
@@ -105,7 +105,7 @@ router.put('/edit/to-do/:toDoId', async (req, res) => {
 });
 
 // Edit a to do's name
-router.put('/edit/to-do-name/:toDoId', async (req, res) => {
+router.put('/edit/to-do-name/:toDoId', auth.verify, async (req, res) => {
 	try {
 		const userId = auth.decode(req.headers.authorization).id;
 		const toDoId = req.params.toDoId;
@@ -117,7 +117,7 @@ router.put('/edit/to-do-name/:toDoId', async (req, res) => {
 });
 
 // Edit a to do's description
-router.put('/edit/to-do-desc/:toDoId', async (req, res) => {
+router.put('/edit/to-do-desc/:toDoId', auth.verify, async (req, res) => {
 	try {
 		const userId = auth.decode(req.headers.authorization).id;
 		const toDoId = req.params.toDoId;
@@ -129,7 +129,7 @@ router.put('/edit/to-do-desc/:toDoId', async (req, res) => {
 });
 
 // Edit a to do's toDoDate
-router.put('/edit/to-do-date/:toDoId', async (req, res) => {
+router.put('/edit/to-do-date/:toDoId', auth.verify, async (req, res) => {
 	try {
 		const userId = auth.decode(req.headers.authorization).id;
 		const toDoId = req.params.toDoId;
@@ -141,7 +141,7 @@ router.put('/edit/to-do-date/:toDoId', async (req, res) => {
 });
 
 // Edit a to do's status
-router.put('/edit/to-do-status/:toDoId', async (req, res) => {
+router.put('/edit/to-do-status/:toDoId', auth.verify, async (req, res) => {
 	try {
 		const userId = auth.decode(req.headers.authorization).id;
 		const toDoId = req.params.toDoId;
@@ -153,7 +153,7 @@ router.put('/edit/to-do-status/:toDoId', async (req, res) => {
 });
 
 // Delete a to do
-router.delete('/delete-to-do/:toDoId', async (req, res) => {
+router.delete('/delete-to-do/:toDoId', auth.verify, async (req, res) => {
 	try {
 		const userId = auth.decode(req.headers.authorization).id;
 		const toDoId = req.params.toDoId;
