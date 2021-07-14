@@ -45,9 +45,6 @@ module.exports.logIn = async (body) => {
 	try {
 		const user = await User.findOne({ email: body.email });
 		
-		// Compares the password from the client's input to the password from the DB
-		const isPasswordMatched = bcryptjs.compareSync(body.password, user.password);
-		
 		// If user returns null, it means that the email doesn't exist in DB
 		if (user === null) {
 			return { error: 'email-does-not-exist' };
@@ -57,6 +54,9 @@ module.exports.logIn = async (body) => {
 		if (user.loginType !== 'email') {
 			return { error: 'login-type-error' };
 		}
+		
+		// Compares the password from the client's input to the password from the DB
+		const isPasswordMatched = bcryptjs.compareSync(body.password, user.password);
 		
 		// This will create a token that will contain the user's details if the password matches
 		if (isPasswordMatched) {
