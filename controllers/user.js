@@ -4,6 +4,7 @@
 const User = require('../models/User');
 
 // Authentication
+const { OAuth2Client } = require('google-auth-library');
 const auth = require('../auth');
 
 // bcryptjs
@@ -67,6 +68,50 @@ module.exports.logIn = async (body) => {
 		
 	} catch (err) {
 		console.error(err);
+	}
+};
+
+// To log in via Google
+module.exports.verifyGoogleTokenId = async (tokenId) => {
+	const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+	
+	const data = await client.verifyIdToken({
+		idToken: tokenId,
+		audience: process.env.GOOGLE_CLIENT_ID
+	});
+	
+	// If user's email is verified by Google, search if it's already in our DB
+	if (data.payload.email_verified) {
+		const user = await User.findOne({ email: data.payload.email });
+		
+		// Checks if user is registered via Google login
+		if (user !== null) {
+			// If they are, return an access token.
+			if (user.loginType === 'google') {
+				return { accessToken: auth.createAccessToken(user.toObject()) };
+				
+				// Else, return a login type error. They may have registered via their email only.
+			} else {
+				return { error: 'login-type-error' };
+			}
+			
+			// If email is verified by Google but the user isn't registere with us, proceed with the registration process
+		} else {
+			let user = new User({
+				givenName: data.payload.given_name,
+				familyName: data.payload.family_name,
+				email: data.payload.email,
+				loginType: 'google'
+			});
+			
+			// After registering them in our DB, return an access token
+			await user.save();
+			return { accessToken: auth.createAccessToken(user.toObject()) };
+		}
+		
+		// If user's email isn't verified by Google
+	} else {
+		return { error: 'google-auth-error' };
 	}
 };
 

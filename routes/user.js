@@ -37,6 +37,15 @@ router.post('/log-in', async (req, res) => {
 	}
 });
 
+// To log in via Google
+router.post('/verify-google-token-id', async (req, res) => {
+	try {
+		res.send(await UserController.verifyGoogleTokenId(req.body.tokenId));
+	} catch (err) {
+		console.error(err);
+	}
+});
+
 // Get user's details
 router.get('/details', auth.verify, async (req, res) => {
 	try {
